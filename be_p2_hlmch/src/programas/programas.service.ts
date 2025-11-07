@@ -28,23 +28,31 @@ export class ProgramasService {
     return this.programasRepository.save(programa);
   }
 
-  async findAll(): Promise<Programa[]> {
-    return this.programasRepository.find({
-      relations: { nivelesacademico: true },
-      select: {
-        id: true,
-        nombre: true,
-        descripcion: true,
-        version: true,
-        duracionMeses: true,
-        costo: true,
-        fechaInicio: true,
-        estado: true,
-        nivelesacademico: { id: true, nombre: true },
-      },
-      order: { nombre: 'ASC' },
-    });
+  async findAll(areaConocimiento?: string): Promise<Programa[]> {
+  const where: any = {};
+  
+  if (areaConocimiento) {
+    where.areaConocimiento = areaConocimiento;
   }
+
+  return this.programasRepository.find({
+    where,
+    relations: { nivelesacademico: true },
+    select: {
+      id: true,
+      nombre: true,
+      descripcion: true,
+      version: true,
+      duracionMeses: true,
+      costo: true,
+      fechaInicio: true,
+      estado: true,
+      areaConocimiento: true,
+      nivelesacademico: { id: true, nombre: true },
+    },
+    order: { nombre: 'ASC' },
+  });
+}
 
   async findOne(id: number): Promise<Programa> {
     const programa = await this.programasRepository.findOne({

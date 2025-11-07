@@ -63,12 +63,11 @@ export class CreateProgramaDto {
 
   @ApiProperty()
   @IsNotEmpty({ message: 'El estado no debe estar vacío' })
-  @IsString({ message: 'El estado debe ser una cadena de texto' })
-  @MaxLength(20, { message: 'El estado no debe exceder los 20 caracteres' })
-  @Transform(({ value }): string | undefined =>
-    typeof value === 'string' ? value.trim() : value,
-  )
   readonly estado: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El área de conocimiento no debe estar vacío' })
+  readonly areaConocimiento: string;
 
 }
 

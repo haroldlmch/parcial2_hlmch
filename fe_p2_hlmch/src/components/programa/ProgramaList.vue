@@ -19,8 +19,10 @@ const programasFiltrados = computed(() => {
   )
 })
 
-async function obtenerLista() {
-  programas.value = await http.get(ENDPOINT).then((response) => response.data)
+async function obtenerLista(area?: string) {
+  const url = area ? `${ENDPOINT}?areaConocimiento=${encodeURIComponent(area)}` : ENDPOINT
+
+  programas.value = await http.get(url).then((response) => response.data)
 }
 
 function emitirEdicion(programa: Programa) {
@@ -65,6 +67,7 @@ defineExpose({ obtenerLista })
           <th>Costo</th>
           <th>Fecha de inico</th>
           <th>Estado</th>
+          <th>Area Conocimiento</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -79,7 +82,7 @@ defineExpose({ obtenerLista })
           <td>{{ programa.costo }}</td>
           <td>{{ programa.fechaInicio }}</td>
           <td>{{ programa.estado }}</td>
-          <td></td>
+          <td>{{ programa.areaConocimiento }}</td>
           <td>
             <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(programa)" />
             <Button

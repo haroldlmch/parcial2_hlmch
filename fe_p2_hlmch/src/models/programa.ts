@@ -10,6 +10,7 @@ export interface Programa {
   costo: number
   fechaInicio: Date
   estado: string
+  areaConocimiento: string
 
   nivelesacademico: NivelesAcademico
 }

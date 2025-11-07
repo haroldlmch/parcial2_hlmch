@@ -15,6 +15,19 @@ import {
 } from 'primevue'
 import { computed, ref, watch } from 'vue'
 
+const areasConocimineto = [
+  { label: 'derecho', value: 'Derecho' },
+  { label: 'ingenieria', value: 'Ingenieria' },
+  { label: 'economia', value: 'Economia' },
+  { label: 'salud', value: 'Salud' },
+]
+
+const estados = [
+  { label: 'en planificacion', value: 'En planificacion' },
+  { label: 'en curso', value: 'En curso' },
+  { label: 'finalizado', value: 'Finalizado' },
+]
+
 const ENDPOINT = 'programas'
 const props = defineProps({
   mostrar: Boolean,
@@ -58,6 +71,7 @@ async function handleSave() {
       costo: programa.value.costo,
       fechaInicio: programa.value.fechaInicio,
       estado: programa.value.estado,
+      areaConocimiento: programa.value.areaConocimiento,
     }
     if (props.modoEdicion) {
       await http.patch(`${ENDPOINT}/${programa.value.id}`, body)
@@ -174,12 +188,27 @@ watch(
 
       <div class="flex items-center gap-4 mb-4">
         <label for="estado" class="font-semibold w-3">Estado</label>
-        <InputText
+        <Dropdown
           id="estado"
           v-model="programa.estado"
+          :options="estados"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccionar Estado"
           class="flex-auto"
-          autocomplete="off"
-          row="4"
+        />
+      </div>
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="areaConocimiento" class="font-semibold w-3">Area Conocimiento</label>
+        <Dropdown
+          id="areaConocimiento"
+          v-model="programa.areaConocimiento"
+          :options="areasConocimineto"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccionar Modalidad"
+          class="flex-auto"
         />
       </div>
 
